@@ -2,10 +2,10 @@ import React from 'react';
 
 // import { Container } from './styles';
 
-export default function followers() {
+export default function donate() {
   return (
     <p>
-      followers
+      Donate if you liked.
     </p>
   );
 }

@@ -55,7 +55,7 @@ export default function home() {
         <p>Enter a Github's username</p>
         <form onSubmit={handleFormSubmit}>
           <Input
-            placeholder="Maybe yours..."
+            placeholder="Go ahead, put your user :P"
             value={input}
             onChange={handleInputChange}
             size="large"

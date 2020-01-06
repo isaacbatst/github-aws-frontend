@@ -21,7 +21,7 @@ export default function AppLayout() {
             <Link to="/">Home</Link>
           </Menu.Item>
           <Menu.Item key="2">
-            <Link to="/followers">Followers</Link>
+            <Link to="/donate">Donate</Link>
           </Menu.Item>
         </Menu>
       </Header>

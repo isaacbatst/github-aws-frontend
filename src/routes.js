@@ -1,13 +1,13 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
 import HomePage from "./pages/home";
-import FollowersPage from "./pages/followers";
+import DonatePage from "./pages/donate";
 
 export default function Routes() {
   return (
     <Switch>
-      <Route path="/followers">
-        <FollowersPage />
+      <Route path="/donate">
+        <DonatePage />
       </Route>
       <Route path="/">
         <HomePage />
