@@ -2,7 +2,7 @@ const AntdDayjsWebpackPlugin = require("antd-dayjs-webpack-plugin");
 const path = require('path');
 
 module.exports = {
-  entry: "./src/index.js",
+  entry: ["@babel/polyfill", './src/index.js'],
   output: {
     path: __dirname + "/public",
     filename: "bundle.js"
