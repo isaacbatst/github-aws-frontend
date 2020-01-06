@@ -1,6 +1,6 @@
 import axios from "axios";
 
 export default axios.create({
-  baseURL: "https://e0na9bm4nb.execute-api.sa-east-1.amazonaws.com/dev/github",
+  baseURL: "https://xq3bwky81m.execute-api.sa-east-1.amazonaws.com/dev/github",
   timeout: 15000
 });
