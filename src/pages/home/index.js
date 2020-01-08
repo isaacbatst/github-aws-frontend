@@ -24,7 +24,7 @@ export default function home() {
     try {
       const [user, repos] = [await requestUser(), await requestRepos()];
       setUser(user);
-      setRepos(repos);
+      orderAndSetRepos(repos);
     } catch (error) {
     } finally {
       setIsFetchingRepos(false);
@@ -43,6 +43,24 @@ export default function home() {
     const response = await Repos.get({ username: input });
     return response.data.repos
   };
+
+  const orderAndSetRepos = repos =>{
+    setRepos(repos
+      .sort((repoA, repoB) => {
+        const dateRepoA = new Date(repoA.updated_at).getTime();
+        const dateRepoB = new Date(repoB.updated_at).getTime();
+
+        if(dateRepoA > dateRepoB){
+          return -1;
+        }
+
+        if(dateRepoB > dateRepoA){
+          return 1;
+        }
+
+        return 0;
+    }));
+  }
 
   const handleInputChange = ({ target }) => {
     setInput(target.value);
