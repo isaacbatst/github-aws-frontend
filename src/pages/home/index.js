@@ -96,7 +96,7 @@ export default function home() {
 
   const handleDeleteClick = payload => {
     Modal.confirm({
-      title: "Do you want to delete this repo?",
+      title: "Do you REALLY want to delete this repo?",
       content: "When clicked the OK button, this repo will DISAPPEAR!",
       onOk() {
         handleConfirmDeleteRepo(payload);
@@ -114,9 +114,9 @@ export default function home() {
 
       if (response.status === 204) {
         setRepos(repos.filter(iteratedRepo => iteratedRepo.id !== repo.id));
-      };
-
-      throw new Error("Couldn't delete your repo, sorry")
+      } else {
+        throw new Error("Couldn't delete your repo, sorry")
+      }
     } catch (error) {
       setErrorFetching(error.message)
     }
