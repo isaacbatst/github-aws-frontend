@@ -1,6 +1,6 @@
 import React from "react";
-import { Col, Card, Row, Icon } from "antd";
-import TimeAgo from "react-timeago";
+import { Col, Row } from "antd";
+import RepoCard from './RepoCard';
 
 export default function ReposCol({ repos }) {
   return (
@@ -8,17 +8,7 @@ export default function ReposCol({ repos }) {
       <Row gutter={8}>
         {repos.map(repo => (
           <Col key={repo.id} span={12} className="repo-inner-col">
-            <Card
-              title={repo.name}
-              actions={[
-                <Icon type="github" key="github" className="repo-link" />,
-                <Icon type="star" key="star" theme="filled" />
-              ]}
-            >
-              <p>
-                Last update: <TimeAgo date={repo.updated_at} />
-              </p>
-            </Card>
+            <RepoCard repo={repo} />
           </Col>
         ))}
       </Row>
