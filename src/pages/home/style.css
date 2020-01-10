@@ -1,39 +1,43 @@
-#button-search-user{
+#button-search-user {
   margin-top: 8px;
 }
 
-.ant-alert{
+.ant-alert {
   margin-bottom: 15px;
 }
 
-#user-avatar{
+#user-avatar {
   max-width: 4em;
   border-radius: 50%;
   border: 1px solid #ddd;
 }
 
-#user-col{
+#user-col {
   padding: 3em;
   display: flex;
   align-items: center;
   flex-direction: column;
 }
 
-.ant-layout-content{
+.ant-layout-content {
   display: flex;
   flex-direction: column;
   justify-content: start;
 }
 
-#user-row{
-  flex: 1
+#user-row {
+  flex: 1;
 }
 
-.repo-inner-col{
+.repo-inner-col {
   margin-bottom: 10px;
 }
 
-.ant-card-head-title{
+.ant-card-head-title {
   font-weight: 700;
   font-size: 0.9em;
+}
+
+.loading-card .ant-card-body {
+  text-align: center;
 }

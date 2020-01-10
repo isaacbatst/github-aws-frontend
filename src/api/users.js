@@ -1,3 +1,3 @@
 import api from "./";
 
-export const get = ({ username }) => api.get(`/users/${username}`);
+export const GET = ({ username }) => api.get(`/users/${username}`);

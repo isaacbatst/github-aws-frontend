@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Input, Icon, Alert, Row } from "antd";
 
 import "./style.css";
@@ -25,7 +25,9 @@ export default function home() {
       const [user, repos] = [await requestUser(), await requestRepos()];
       setUser(user);
       orderAndSetRepos(repos);
+      setErrorFetching(null);
     } catch (error) {
+      setErrorFetching("User couldn't be found")
     } finally {
       setIsFetchingRepos(false);
       setIsFetchingUser(false);
@@ -34,42 +36,69 @@ export default function home() {
 
   const requestUser = async () => {
     setIsFetchingUser(true);
-    const response = await Users.get({ username: input });
-    return response.data.user
+    const response = await Users.GET({ username: input });
+    return response.data.user;
   };
 
   const requestRepos = async () => {
     setIsFetchingRepos(true);
-    const response = await Repos.get({ username: input });
-    return response.data.repos
+    const response = await Repos.GET({ username: input });
+    return response.data.repos;
   };
 
-  const orderAndSetRepos = repos =>{
-    setRepos(repos
-      .sort((repoA, repoB) => {
+  const orderAndSetRepos = repos => {
+    setRepos(
+      repos.sort((repoA, repoB) => {
         const dateRepoA = new Date(repoA.updated_at).getTime();
         const dateRepoB = new Date(repoB.updated_at).getTime();
 
-        if(dateRepoA > dateRepoB){
+        if (dateRepoA > dateRepoB) {
           return -1;
         }
 
-        if(dateRepoB > dateRepoA){
+        if (dateRepoB > dateRepoA) {
           return 1;
         }
 
         return 0;
-    }));
-  }
+      })
+    );
+  };
 
   const handleInputChange = ({ target }) => {
     setInput(target.value);
   };
 
+  const handleEditSubmit = async ({ currentRepo, newRepoProps }) => {
+    try {
+      const {
+        data: { repo }
+      } = await Repos.PATCH({
+        newRepoProps,
+        path: {
+          repo: currentRepo.name,
+          username: user.login
+        }
+      });
+
+      setRepos(
+        repos.map(iteratedRepo => {
+          if (iteratedRepo.id === currentRepo.id) {
+            return repo;
+          }
+          return iteratedRepo;
+        })
+      );
+
+    } catch (error) {
+      setErrorFetching(error.message)
+    }
+  };
+
   return (
     <>
       <div>
-        {errorFetching && <Alert message="User not found" type="warning" />}
+        {errorFetching && <Alert message={errorFetching} closable type="error" />}
         <p>Enter a Github's username</p>
         <form onSubmit={handleFormSubmit}>
           <Input
@@ -91,9 +120,11 @@ export default function home() {
         </form>
       </div>
 
-      <Row id="user-row" gutter={10}> 
+      <Row id="user-row" gutter={10}>
         {user && <UserCol user={user} />}
-        {repos && <ReposCol repos={repos} />}
+        {repos && (
+          <ReposCol handleEditSubmit={handleEditSubmit} repos={repos} />
+        )}
       </Row>
     </>
   );
