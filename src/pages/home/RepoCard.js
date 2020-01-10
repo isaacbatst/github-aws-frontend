@@ -13,7 +13,7 @@ export default function RepoCard({ repo, handleEditSubmit }) {
   const handleDeleteClick = () => {};
 
   const handleEditClick = () => {
-    setIsEditing(true);
+    setIsEditing(!isEditing);
   };
 
   const handleEditAtCard = async payload => {
@@ -41,6 +41,7 @@ export default function RepoCard({ repo, handleEditSubmit }) {
           type="edit"
           key="edit"
           className="repo-link"
+          style={isEditing ? {color: '#ff7a45'}: {}}
           onClick={handleEditClick}
         />,
         <Icon type="close" key="close" onClick={handleDeleteClick} />
