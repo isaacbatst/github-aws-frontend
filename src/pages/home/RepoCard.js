@@ -1,7 +1,6 @@
 import React from "react";
 import { Card, Icon } from "antd";
 import TimeAgo from "react-timeago";
-import { auth } from "../../services/githubAuth/auth";
 
 export default function RepoCard({ repo }) {
 
