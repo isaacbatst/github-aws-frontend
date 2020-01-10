@@ -1,5 +1,5 @@
 import React from "react";
-import { Input, Icon, Form, Button } from "antd";
+import { Input, Form, Button } from "antd";
 
 function hasErrors(fieldsError) {
   return Object.keys(fieldsError).some(field => fieldsError[field]);

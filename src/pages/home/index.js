@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Input, Icon, Alert, Row } from "antd";
+import { Button, Input, Icon, Alert, Row, Modal } from "antd";
 
 import "./style.css";
 import * as Users from "../../api/users";
@@ -27,7 +27,7 @@ export default function home() {
       orderAndSetRepos(repos);
       setErrorFetching(null);
     } catch (error) {
-      setErrorFetching("User couldn't be found")
+      setErrorFetching("User couldn't be found");
     } finally {
       setIsFetchingRepos(false);
       setIsFetchingUser(false);
@@ -89,7 +89,34 @@ export default function home() {
           return iteratedRepo;
         })
       );
+    } catch (error) {
+      setErrorFetching(error.message);
+    }
+  };
 
+  const handleDeleteClick = payload => {
+    Modal.confirm({
+      title: "Do you want to delete this repo?",
+      content: "When clicked the OK button, this repo will DISAPPEAR!",
+      onOk() {
+        handleConfirmDeleteRepo(payload);
+      },
+      onCancel() {}
+    });
+  };
+
+  const handleConfirmDeleteRepo = async ({ repo }) => {
+    try {
+      const response = await Repos.DELETE({
+        username: user.login,
+        repo: repo.name
+      });
+
+      if (response.status === 204) {
+        setRepos(repos.filter(iteratedRepo => iteratedRepo.id !== repo.id));
+      };
+
+      throw new Error("Couldn't delete your repo, sorry")
     } catch (error) {
       setErrorFetching(error.message)
     }
@@ -98,7 +125,9 @@ export default function home() {
   return (
     <>
       <div>
-        {errorFetching && <Alert message={errorFetching} closable type="error" />}
+        {errorFetching && (
+          <Alert message={errorFetching} closable type="error" />
+        )}
         <p>Enter a Github's username</p>
         <form onSubmit={handleFormSubmit}>
           <Input
@@ -123,7 +152,11 @@ export default function home() {
       <Row id="user-row" gutter={10}>
         {user && <UserCol user={user} />}
         {repos && (
-          <ReposCol handleEditSubmit={handleEditSubmit} repos={repos} />
+          <ReposCol
+            handleEditSubmit={handleEditSubmit}
+            handleDeleteClick={handleDeleteClick}
+            repos={repos}
+          />
         )}
       </Row>
     </>

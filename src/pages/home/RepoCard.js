@@ -1,16 +1,17 @@
 import React, { useState } from "react";
-import { Card, Icon, Form, Button } from "antd";
+import { Card, Icon } from "antd";
 import TimeAgo from "react-timeago";
-import * as Repos from "../../api/repos";
 import RepoEditForm from "./RepoEditForm";
 
-export default function RepoCard({ repo, handleEditSubmit }) {
+export default function RepoCard({
+  repo,
+  handleEditSubmit,
+  handleDeleteClick
+}) {
   const [isEditing, setIsEditing] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
 
   const handleGithubClick = () => window.open(repo.html_url, "_blank");
-
-  const handleDeleteClick = () => {};
 
   const handleEditClick = () => {
     setIsEditing(!isEditing);
@@ -41,10 +42,14 @@ export default function RepoCard({ repo, handleEditSubmit }) {
           type="edit"
           key="edit"
           className="repo-link"
-          style={isEditing ? {color: '#ff7a45'}: {}}
+          style={isEditing ? { color: "#ff7a45" } : {}}
           onClick={handleEditClick}
         />,
-        <Icon type="close" key="close" onClick={handleDeleteClick} />
+        <Icon
+          type="close"
+          key="close"
+          onClick={() => handleDeleteClick({ repo })}
+        />
       ]}
     >
       {isEditing ? (
